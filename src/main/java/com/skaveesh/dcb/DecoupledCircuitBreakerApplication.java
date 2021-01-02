@@ -1,13 +1,13 @@
-package com.skaveesh.res4j;
+package com.skaveesh.dcb;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Resilience4jExecutorApplication {
+public class DecoupledCircuitBreakerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Resilience4jExecutorApplication.class, args);
+		SpringApplication.run(DecoupledCircuitBreakerApplication.class, args);
 	}
 
 }

@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.skaveesh</groupId>
-	<artifactId>res4j</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>resilience4j-executor</name>
-	<description>Resilience4j Project</description>
+	<artifactId>dcb</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>decoupled-circuit-breaker</name>
+	<description>Decoupled Circuit Breaker Project</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -20,15 +20,42 @@
 	</properties>
 
 	<dependencies>
+		<!--to import spring http-->
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!--to import aspect oriented-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+		<!--to import resilience4j decorators and circuit breaker-->
+		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-all</artifactId>
+			<version>1.6.1</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-circuitbreaker</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-spring-boot2</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+
+		<!--to import json encode/decode-->
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
 		</dependency>
 	</dependencies>
 

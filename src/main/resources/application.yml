@@ -1,0 +1,67 @@
+spring:
+  application:
+    name: decoupled-circuit-breaker
+
+server:
+  port: 9999
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+
+      slidingWindowSize: 15
+      #Configures the size of the sliding window which is used to record the outcome of calls when the CircuitBreaker is closed.
+      #15 seconds since slidingWindowType is TIME_BASED
+
+      minimumNumberOfCalls: 2
+      #Configures the minimum number of calls which are required (per sliding window period) before the CircuitBreaker can calculate the error rate or slow call rate.
+      #For example, if minimumNumberOfCalls is 10, then at least 10 calls must be recorded, before the failure rate can be calculated.
+      #If only 9 calls have been recorded the CircuitBreaker will not transition to open even if all 9 calls have failed.
+
+      slidingWindowType: TIME_BASED
+      #the calls of the last slidingWindowSize seconds recorded and aggregated.
+
+      slowCallDurationThreshold: 2s
+      #Configures the duration threshold above which calls are considered as slow and increase the rate of slow calls.
+
+      permittedNumberOfCallsInHalfOpenState: 3
+      #how much calls are permitted when circuit breaker in half-open state
+
+      waitDurationInOpenState: 5s
+      #The time that the CircuitBreaker should wait before transitioning from open to half-open.
+
+      failureRateThreshold: 50
+      #When the failure rate is equal or greater than the threshold the CircuitBreaker transitions to open and starts short-circuiting calls.
+
+      eventConsumerBufferSize: 10
+      #The emitted CircuitBreaker, Retry, RateLimiter, Bulkhead and TimeLimiter events are stored in a separate circular event consumer buffers
+
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.util.concurrent.TimeoutException
+        - java.io.IOException
+      #A list of exceptions that are recorded as a failure and thus increase the failure rate.
+      #Any exception matching or inheriting from one of the list counts as a failure, unless explicitly ignored via ignoreExceptions.
+      #If you specify a list of exceptions, all other exceptions count as a success, unless they are explicitly ignored by ignoreExceptions.
+
+      ignoreExceptions:
+      # - io.github.robwin.exception.BusinessException
+
+    shared:
+      slidingWindowSize: 100
+      permittedNumberOfCallsInHalfOpenState: 30
+      waitDurationInOpenState: 1s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+    #this is an another custom circuit breaker config named as "shared"
+
+  instances:
+    myAPOConfiguredMyCircuitBreaker:
+      #registered name of our circuit breaker
+
+      baseConfig: default
+      #which configuration "myAPOConfiguredMyCircuitBreaker" should be used for it's circuit breaker events
+
+      #recordFailurePredicate: io.github.robwin.exception.RecordFailurePredicate
+      #used to determine which exceptions should be counted as failures into the breaker statistics, the default is the Throwable type
